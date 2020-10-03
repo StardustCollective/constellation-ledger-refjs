@@ -1,0 +1,38 @@
+{
+  "name": "constellationjs",
+  "version": "1.0.0",
+  "module": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StardustCollective/constellationjs"
+  },
+  "scripts": {
+    "eslint": "eslint --fix 'scripts/**/*.js'",
+    "eslint-unit-test": "eslint --fix 'test/unit/**/*.js'",
+    "itest": "./node_modules/mocha/bin/mocha -t 100000 test/integration",
+    "test": "./node_modules/mocha/bin/mocha -t 100000 test/unit",
+    "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' ./node_modules/mocha/bin/mocha -t 100000 test/unit",
+    "start": "node main.js",
+    "docs": "./node_modules/documentation/bin/documentation.js build --config documentation.yaml documentation.js -f md -o docs/documentation.md"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@ledgerhq/hw-transport-node-hid": "^5.23.2",
+    "babel-polyfill": "^6.26.0",
+    "bip32": "^2.0.5",
+    "bip39": "^3.0.2",
+    "bs58": "^4.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "documentation": "^13.0.2",
+    "elliptic": "^6.5.3",
+    "eslint": "^7.9.0",
+    "eslint-config-google": "^0.14.0",
+    "mocha": "^8.1.3",
+    "nyc": "^15.1.0"
+  },
+  "description": "constellation javascript library"
+}
