@@ -55,6 +55,84 @@ describe('index', () => {
       expect(actual).to.deep.equal(expected);
     });
   });
+  describe('sendAmountUsingLedger', () => {
+    it('sendAmountUsingLedger no config', async () => {
+      const message = 'config is a required parameter.';
+      await testUtil.expectErrorMessage(message, index.sendAmountUsingLedger);
+    });
+    it('sendAmountUsingLedger no amount', async () => {
+      const config = testUtil.getConfig();
+      const message = 'amount is a required parameter.';
+      await testUtil.expectErrorMessage(message, index.sendAmountUsingLedger, config);
+    });
+    it('sendAmountUsingLedger no toAddress', async () => {
+      const config = testUtil.getConfig();
+      const amount = 1;
+      const message = 'toAddress is a required parameter.';
+      await testUtil.expectErrorMessage(message, index.sendAmountUsingLedger, config, amount);
+    });
+
+    it.skip('sendAmountUsingLedger', async () => {
+      const config = testUtil.getConfig();
+      // config.debug = true;
+      const amount = 1;
+      const toAddress = 'DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv';
+      const expected = {
+        'prevHash': 'bac31892cb428af03a0a4488276e925057b1eac6bfc466013431eca0bc8cabe0',
+        'ordinal': 586,
+        'tx': {
+          'edge': {
+            'observationEdge': {
+              'parents': [{
+                'hashReference': 'DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ',
+                'hashType': 'AddressHash',
+              }, {
+                'hashReference': 'DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv',
+                'hashType': 'AddressHash',
+              }],
+              'data': {
+                'hashType': 'TransactionDataHash',
+                'hashReference': '1164bac31892cb428af03a0a4488276e925057b1eac6bfc466013431eca0bc8cabe035861010',
+              },
+            },
+            'signedObservationEdge': {
+              'signatureBatch': {
+                'hash': '66ecf3cbcd444b2a3714459d6685d3ef0ca773ab27ed07977943d4bad731bb73',
+                'signatures': [{
+                  'id': {
+                    'hex': '08DDA015C42EA066A52D68E2AB2985B5AB255D3D0FD2B90363548CC74963B156E1A6AEC5BEB1A0C1DF86025FFDED1DBA91AFA87ECACDC6E32934421AB6C28D9E',
+                  },
+                }],
+              },
+            },
+            'data': {
+              'amount': '1',
+              'lastTxRef': {
+                'prevHash': 'bac31892cb428af03a0a4488276e925057b1eac6bfc466013431eca0bc8cabe0',
+                'ordinal': 586,
+              },
+              'salt': '0',
+            },
+          },
+          'lastTxRef': {
+            'prevHash': 'bac31892cb428af03a0a4488276e925057b1eac6bfc466013431eca0bc8cabe0',
+            'ordinal': 586,
+          },
+          'isDummy': false,
+          'isTest': false,
+        },
+        'address': 'DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ',
+        'success': true,
+        'message': '66ecf3cbcd444b2a3714459d6685d3ef0ca773ab27ed07977943d4bad731bb73',
+      };
+      const actual = await index.sendAmountUsingLedger(config, amount, toAddress);
+      if (actual.success == false) {
+        throw Error(actual.message);
+      }
+      delete actual.tx.edge.signedObservationEdge.signatureBatch.signatures[0].signature;
+      expect(actual).to.deep.equal(expected);
+    });
+  });
 
   describe('getBalanceFromMnemonic', () => {
     it('getBalanceFromMnemonic no config', async () => {
@@ -76,6 +154,24 @@ describe('index', () => {
         'balance': 1000000000000,
         'balanceByLatestSnapshot': 1000000000000,
         'balanceWhole': '10000.00000000',
+        'memPoolBalance': 0,
+        'rewardsBalance': 0,
+        'success': true,
+      };
+      const actual = await index.getBalanceFromMnemonic(config, mnemonic);
+      delete actual.reputation;
+      expect(actual).to.deep.equal(expected);
+    });
+    it('getMinBalanceFromMnemonic', async () => {
+      const config = testUtil.getUnsupportedConfig();
+      const mnemonic = encodeTestData.mnemonicZero;
+      const expected = {
+        'address': 'DAG819drNmqZqZ42bfGQSGh5dYUrg1dVmw4Bfmcs',
+        'ancestorBalances': {},
+        'ancestorReputations': {},
+        'balance': 1,
+        'balanceByLatestSnapshot': 0,
+        'balanceWhole': '0.00000001',
         'memPoolBalance': 0,
         'rewardsBalance': 0,
         'success': true,

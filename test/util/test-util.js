@@ -30,7 +30,7 @@ const getConfig = () => {
   const config = {};
   config.hostname = '18.144.54.62';
   config.port = 9000;
-  config.debug = false;
+  config.debug = true;
   config.fee = 0;
   config.salt = 0;
   config.transportNodeHid = {};
@@ -47,6 +47,7 @@ const getConfig = () => {
 
   const ledgerRequestResponse = {};
   ledgerRequestResponse['80040000008000002C80000471800000000000000000000000'] = '0408DDA015C42EA066A52D68E2AB2985B5AB255D3D0FD2B90363548CC74963B156E1A6AEC5BEB1A0C1DF86025FFDED1DBA91AFA87ECACDC6E32934421AB6C28D9E9000';
+  ledgerRequestResponse['80028000B1022844414734457162664A4E53595A444466733741557A6F666F744A7A5A58655259674861475A366A512844414736785872763637724C4161476F5943615565327070424A4D4B73726955694E567A6B4A76760101406261633331383932636234323861663033613061343438383237366539323530353762316561633662666334363630313334333165636130626338636162653002024A010001008000002C80000471800000000000000000000000'] = '3044022044541852B53DE2B29D220BF93245320835F1839DF1C6E9663F784E45D2E8B9CC02202D09060ACC2F14C681EBE7AC2BB8FE05C13AC4D8D15741EFD264BF8F22FA9E18FFFF0D2A54F46D3ACF509AE1179B2DE3CE7DE503CCF6561BAA4371C86D23539FD481FFFF0301326332343044414734457162664A4E53595A444466733741557A6F666F744A7A5A58655259674861475A366A51343044414736785872763637724C4161476F5943615565327070424A4D4B73726955694E567A6B4A76763131363464303138663935393837356232613136373262316162376636336666653530653263393265336465383835363135393033333832633263313535343533383436313131313031309000';
 
   config.transportNodeHid.default.open = (path) => {
     return new Promise((resolve) => {
@@ -55,6 +56,9 @@ const getConfig = () => {
         return new Promise((resolve) => {
           const requestStr = request.toString('hex').toUpperCase();
           const response = ledgerRequestResponse[requestStr];
+          if (response === undefined) {
+            throw Error(`no ledger response found for '${requestStr}'`);
+          }
           if (config.debug) {
             console.log('exchange', 'request', requestStr);
             console.log('exchange', 'response', response);
@@ -71,6 +75,9 @@ const getConfig = () => {
   httpRequestResponse['GET'] = {};
   httpRequestResponse['GET']['/address/DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ'] = '{"balance":1000000000000,"memPoolBalance":0,"reputation":null,"ancestorBalances":{},"ancestorReputations":{},"balanceByLatestSnapshot":1000000000000,"rewardsBalance":0}';
   httpRequestResponse['GET']['/transaction/last-ref/DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ'] = '{"prevHash":"bac31892cb428af03a0a4488276e925057b1eac6bfc466013431eca0bc8cabe0","ordinal":586}';
+  httpRequestResponse['GET']['/address/DAG819drNmqZqZ42bfGQSGh5dYUrg1dVmw4Bfmcs'] =
+  '{"balance":1,"memPoolBalance":0,"reputation":null,  "ancestorBalances":{},"ancestorReputations":{}, "balanceByLatestSnapshot":0,"rewardsBalance":0,"balanceWhole":"0.00000001","address": "DAG819drNmqZqZ42bfGQSGh5dYUrg1dVmw4Bfmcs","success": true}';
+
   httpRequestResponse['POST'] = {};
   httpRequestResponse['POST']['/transaction'] = {};
 
@@ -119,6 +126,9 @@ const getConfig = () => {
         console.log('responseStr', responseStr);
       }
       const dataFn = typeFn['data'];
+      if (responseStr === undefined) {
+        throw Error('no response for options:' + JSON.stringify(options));
+      }
       dataFn(Buffer.from(responseStr, 'utf8'));
       const endFn = typeFn['end'];
       endFn();

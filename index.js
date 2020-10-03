@@ -157,9 +157,6 @@
     callback.signEncodedTx = (encodedTx) => {
       return signUtil.sign(encodedTx, privateKey);
     };
-    callback.verify = (hash, signature) => {
-      return signUtil.verify(hash, signature, publicKey);
-    };
 
     return await sendAmountUsingCallback(config, amount, toAddress, address, publicKey, callback);
   };
