@@ -169,19 +169,6 @@ describe('sign', () => {
     const actualVerifyResponse = {signature: signature, verified: verifyResponse};
     expect(actualVerifyResponse).to.deep.equal(expectedVerifyResponse);
   });
-  it.skip('crypto-verify elliptic hash sign', () => {
-    // const hash = encodeTestData.decodedTx.edge.signedObservationEdge.signatureBatch.hash;
-    const hash = Buffer.from(encodeTestData.decodedTx.edge.signedObservationEdge.signatureBatch.hash, 'hex');
-    const signature = signHashElliptic(hash, encodeTestData.privateKey);
-    // console.log('elliptic hash.. sign', 'hashHex', hash.toString('hex'));
-    // console.log('elliptic hash.. sign', 'hash', hash);
-    // console.log('elliptic hash.. sign', 'signature', signature);
-    // console.log('elliptic hash.. sign', 'publicKey', encodeTestData.publicKey);
-    const verifyResponse = signUtil.verify(hash, signature, encodeTestData.publicKey);
-    const expectedVerifyResponse = {signature: signature, verified: true};
-    const actualVerifyResponse = {signature: signature, verified: verifyResponse};
-    expect(actualVerifyResponse).to.deep.equal(expectedVerifyResponse);
-  });
 
   beforeEach(async () => {});
 
