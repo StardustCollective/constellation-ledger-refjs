@@ -72,7 +72,7 @@ describe('index', () => {
       await testUtil.expectErrorMessage(message, index.sendAmountUsingLedger, config, amount);
     });
 
-    it.skip('sendAmountUsingLedger', async () => {
+    it('sendAmountUsingLedger', async () => {
       const config = testUtil.getConfig();
       // config.debug = true;
       const amount = 1;

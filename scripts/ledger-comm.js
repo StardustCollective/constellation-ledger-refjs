@@ -3,7 +3,7 @@
 // max length in bytes.
 const MAX_SIGNED_TX_LEN = 512;
 
-const debug = true;
+const debug = false;
 
 const bip44Path =
   '8000002C' +
@@ -163,7 +163,9 @@ const splitMessageIntoChunks = (ledgerMessage) => {
 };
 
 const decodeSignature = (response) => {
-  console.log('decodeSignature', 'response', response);
+  if (debug) {
+    console.log('decodeSignature', 'response', response);
+  }
   // const d2h = (d) => {
   //   let s = (+d).toString(16);
   //   if (s.length < 2) {
@@ -212,7 +214,9 @@ const decodeSignature = (response) => {
   // const s = response.substring(sStart, sEnd);
 
   const signature = response.substring(0, sEnd);
-  console.log('decodeSignature', 'signature', signature);
+  if (debug) {
+    console.log('decodeSignature', 'signature', signature);
+  }
   return signature;
   // const b2 = d2h(r.length/2);
   // const b3 = d2h(s.length/2);
