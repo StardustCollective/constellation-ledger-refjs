@@ -3,7 +3,7 @@
 // max length in bytes.
 const MAX_SIGNED_TX_LEN = 512;
 
-const debug = false;
+const debug = true;
 
 const bip44Path =
   '8000002C' +
@@ -163,6 +163,7 @@ const splitMessageIntoChunks = (ledgerMessage) => {
 };
 
 const decodeSignature = (response) => {
+  /* istanbul ignore if */
   if (debug) {
     console.log('decodeSignature', 'response', response);
   }
@@ -214,6 +215,7 @@ const decodeSignature = (response) => {
   // const s = response.substring(sStart, sEnd);
 
   const signature = response.substring(0, sEnd);
+  /* istanbul ignore if */
   if (debug) {
     console.log('decodeSignature', 'signature', signature);
   }
@@ -277,6 +279,7 @@ const sign = (transportNodeHid, transactionHex, callback) => {
       // console.log('deviceThenCallback', 'messages', messages);
       for (let ix = 0; ix < messages.length; ix++) {
         const request = messages[ix];
+        /* istanbul ignore if */
         if (debug) {
           console.log('exchange', 'message', request);
         }
@@ -286,6 +289,7 @@ const sign = (transportNodeHid, transactionHex, callback) => {
         const responseStr = response.toString('hex').toUpperCase();
         // console.log('exchange', 'request', request);
         // console.log('exchange', 'response', responseStr);
+        /* istanbul ignore if */
         if (debug) {
           console.log('exchange', 'response', responseStr);
         }

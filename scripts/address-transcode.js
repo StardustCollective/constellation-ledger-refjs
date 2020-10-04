@@ -29,27 +29,33 @@ const getAddressFromRawPublicKey = (publicKeyHex) => {
 };
 
 const getAddressFromDerPublicKey = (publicKeyHex) => {
+  /* istanbul ignore if */
   if (DEBUG) {
     console.log('publicKeyHex', publicKeyHex);
   }
   const publicKeyBuffer = Buffer.from(publicKeyHex, 'hex');
   const sha256 = Sha256Hash.sha256Hash(publicKeyBuffer);
+  /* istanbul ignore if */
   if (DEBUG) {
     console.log('sha256 of publicKey', sha256.toString('hex'));
   }
   const base58encoded = bs58.encode(sha256);
+  /* istanbul ignore if */
   if (DEBUG) {
     console.log('base58encoded of sha256', base58encoded);
   }
   const end = base58encoded.slice(base58encoded.length - 36);
+  /* istanbul ignore if */
   if (DEBUG) {
     console.log('end of base58encoded', end);
   }
   const sum = sumOnlyDigits(end);
+  /* istanbul ignore if */
   if (DEBUG) {
     console.log('sum of digits of end', sum);
   }
   const par = sum % 9;
+  /* istanbul ignore if */
   if (DEBUG) {
     console.log('par of sum', par);
   }

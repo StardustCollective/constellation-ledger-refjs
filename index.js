@@ -2,7 +2,7 @@
 
 // STARTED TOP nodejs/browser hack
 (function() {
-// FINISHED TOP nodejs/browser hack
+  // FINISHED TOP nodejs/browser hack
   const integrationUtil = require('./scripts/integration.js');
   const mnemonicUtil = require('./scripts/mnemonic.js');
   const keyTranscodeUtil = require('./scripts/key-transcode.js');
@@ -26,7 +26,7 @@
     // console.log('toWholeNumber', 'balance', balance);
     const paddedBalance = leftPad(balance, 9);
     // console.log('toWholeNumber', 'paddedBalance', paddedBalance);
-    const prefixLength = paddedBalance.length-8;
+    const prefixLength = paddedBalance.length - 8;
     // console.log('toWholeNumber', 'prefixLength', prefixLength);
     const prefix = paddedBalance.slice(0, prefixLength);
     // console.log('toWholeNumber', 'prefix', prefix);
@@ -38,7 +38,7 @@
   const getBalanceFromLedger = async (config) => {
     /* istanbul ignore if */
     if (config == undefined) {
-      throw Error( 'config is a required parameter.' );
+      throw Error('config is a required parameter.');
     }
     return new Promise((resolve) => {
       const callback = async (msg) => {
@@ -81,11 +81,11 @@
   const getBalanceFromMnemonic = async (config, mnemonic) => {
     /* istanbul ignore if */
     if (config == undefined) {
-      throw Error( 'config is a required parameter.' );
+      throw Error('config is a required parameter.');
     }
     /* istanbul ignore if */
     if (mnemonic == undefined) {
-      throw Error( 'mnemonic is a required parameter.' );
+      throw Error('mnemonic is a required parameter.');
     }
     /* istanbul ignore if */
     if (config.debug) {
@@ -120,19 +120,19 @@
   const sendAmountUsingMnemonic = async (config, amount, toAddress, mnemonic) => {
     /* istanbul ignore if */
     if (config == undefined) {
-      throw Error( 'config is a required parameter.' );
+      throw Error('config is a required parameter.');
     }
     /* istanbul ignore if */
     if (amount == undefined) {
-      throw Error( 'amount is a required parameter.' );
+      throw Error('amount is a required parameter.');
     }
     /* istanbul ignore if */
     if (toAddress == undefined) {
-      throw Error( 'toAddress is a required parameter.' );
+      throw Error('toAddress is a required parameter.');
     }
     /* istanbul ignore if */
     if (mnemonic == undefined) {
-      throw Error( 'mnemonic is a required parameter.' );
+      throw Error('mnemonic is a required parameter.');
     }
     /* istanbul ignore if */
     if (config.debug) {
@@ -164,15 +164,15 @@
   const sendAmountUsingLedger = async (config, amount, toAddress) => {
     /* istanbul ignore if */
     if (config == undefined) {
-      throw Error( 'config is a required parameter.' );
+      throw Error('config is a required parameter.');
     }
     /* istanbul ignore if */
     if (amount == undefined) {
-      throw Error( 'amount is a required parameter.' );
+      throw Error('amount is a required parameter.');
     }
     /* istanbul ignore if */
     if (toAddress == undefined) {
-      throw Error( 'toAddress is a required parameter.' );
+      throw Error('toAddress is a required parameter.');
     }
 
     return new Promise((resolve) => {
@@ -205,7 +205,7 @@
                   resolve(response.signature);
                   // resolve(Buffer.from(response.signature, 'hex'));
                 } else {
-                  reject(response.message);
+                  reject(Error(response.message));
                 }
               };
               /* istanbul ignore if */
