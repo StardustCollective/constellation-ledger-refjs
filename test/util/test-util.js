@@ -26,6 +26,37 @@ const getNoDeviceConfig = () => {
   return config;
 };
 
+const getPublicKeyErrorConfig = (errorCode) => {
+  if (errorCode === undefined) {
+    throw Error(`error code is a required parameter`);
+  }
+  const config = getConfig();
+  config.ledgerRequestResponse['80040000008000002C80000471800000000000000000000000'] = errorCode;
+  return config;
+}
+
+const getSignErrorConfig = (errorCode) => {
+  if (errorCode === undefined) {
+    throw Error(`error code is a required parameter`);
+  }
+  const config = getConfig();
+  config.ledgerRequestResponse['80028000B1022844414734457162664A4E53595A444466733741557A6F666F744A7A5A58655259674861475A366A512844414736785872763637724C4161476F5943615565327070424A4D4B73726955694E567A6B4A76760101406261633331383932636234323861663033613061343438383237366539323530353762316561633662666334363630313334333165636130626338636162653002024A010001008000002C80000471800000000000000000000000'] = errorCode;
+  return config;
+}
+
+const getConfigWithFee = (fee, hash) => {
+  if (fee === undefined) {
+    throw Error(`fee is a required parameter`);
+  }
+  if (hash === undefined) {
+    throw Error(`hash is a required parameter`);
+  }
+  const config = getConfig();
+  config.fee = fee;
+  config.httpRequestResponse['POST']['/transaction'][hash] = hash;
+  return config;
+}
+
 const getConfig = () => {
   const config = {};
   config.hostname = '18.144.54.62';
@@ -44,10 +75,9 @@ const getConfig = () => {
     });
   };
 
-
-  const ledgerRequestResponse = {};
-  ledgerRequestResponse['80040000008000002C80000471800000000000000000000000'] = '0408DDA015C42EA066A52D68E2AB2985B5AB255D3D0FD2B90363548CC74963B156E1A6AEC5BEB1A0C1DF86025FFDED1DBA91AFA87ECACDC6E32934421AB6C28D9E9000';
-  ledgerRequestResponse['80028000B1022844414734457162664A4E53595A444466733741557A6F666F744A7A5A58655259674861475A366A512844414736785872763637724C4161476F5943615565327070424A4D4B73726955694E567A6B4A76760101406261633331383932636234323861663033613061343438383237366539323530353762316561633662666334363630313334333165636130626338636162653002024A010001008000002C80000471800000000000000000000000'] = '3046022100a3d84389889d503b55dd9024b8f8dee48f9c3fa8709ca101d67dfb4a877cee9f022100df6b968c63a3e96d667e451703d2b2cdbcc6dbf447d482ea89016eb718e60cb6FFFF8987E92A61B7E38E82361CCAA62772801654AFA20065C2A5A6D873FE23CCCC499000';
+  config.ledgerRequestResponse = {};
+  config.ledgerRequestResponse['80040000008000002C80000471800000000000000000000000'] = '0408DDA015C42EA066A52D68E2AB2985B5AB255D3D0FD2B90363548CC74963B156E1A6AEC5BEB1A0C1DF86025FFDED1DBA91AFA87ECACDC6E32934421AB6C28D9E9000';
+  config.ledgerRequestResponse['80028000B1022844414734457162664A4E53595A444466733741557A6F666F744A7A5A58655259674861475A366A512844414736785872763637724C4161476F5943615565327070424A4D4B73726955694E567A6B4A76760101406261633331383932636234323861663033613061343438383237366539323530353762316561633662666334363630313334333165636130626338636162653002024A010001008000002C80000471800000000000000000000000'] = '3046022100a3d84389889d503b55dd9024b8f8dee48f9c3fa8709ca101d67dfb4a877cee9f022100df6b968c63a3e96d667e451703d2b2cdbcc6dbf447d482ea89016eb718e60cb6FFFF8987E92A61B7E38E82361CCAA62772801654AFA20065C2A5A6D873FE23CCCC499000';
 
   config.transportNodeHid.default.open = (path) => {
     return new Promise((resolve) => {
@@ -55,7 +85,7 @@ const getConfig = () => {
       device.exchange = (request) => {
         return new Promise((resolve) => {
           const requestStr = request.toString('hex').toUpperCase();
-          const response = ledgerRequestResponse[requestStr];
+          const response = config.ledgerRequestResponse[requestStr];
           if (response === undefined) {
             throw Error(`no ledger response found for '${requestStr}'`);
           }
@@ -83,6 +113,7 @@ const getConfig = () => {
 
   httpRequestResponse['POST']['/transaction']['db77c6b049d98eeae603b2db86106292855da5127de70cb37d2766834bcc4fed'] = 'The request body was invalid.';
   httpRequestResponse['POST']['/transaction']['66ecf3cbcd444b2a3714459d6685d3ef0ca773ab27ed07977943d4bad731bb73'] = '66ecf3cbcd444b2a3714459d6685d3ef0ca773ab27ed07977943d4bad731bb73';
+  config.httpRequestResponse = httpRequestResponse;
 
   config.http = {};
   config.http.request = (options, res) => {
@@ -158,3 +189,6 @@ exports.getConfig = getConfig;
 exports.getUnsupportedConfig = getUnsupportedConfig;
 exports.getNoDeviceConfig = getNoDeviceConfig;
 exports.expectErrorMessage = expectErrorMessage;
+exports.getPublicKeyErrorConfig = getPublicKeyErrorConfig;
+exports.getSignErrorConfig = getSignErrorConfig;
+exports.getConfigWithFee = getConfigWithFee;

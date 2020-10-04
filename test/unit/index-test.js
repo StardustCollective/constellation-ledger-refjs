@@ -71,7 +71,6 @@ describe('index', () => {
       const message = 'toAddress is a required parameter.';
       await testUtil.expectErrorMessage(message, index.sendAmountUsingLedger, config, amount);
     });
-
     it('sendAmountUsingLedger', async () => {
       const config = testUtil.getConfig();
       // config.debug = true;
@@ -130,6 +129,43 @@ describe('index', () => {
         throw Error(actual.message);
       }
       delete actual.tx.edge.signedObservationEdge.signatureBatch.signatures[0].signature;
+      expect(actual).to.deep.equal(expected);
+    });
+    it('sendAmountUsingLedger sign error 6985', async () => {
+      const config = testUtil.getSignErrorConfig('6985');
+      // config.debug = true;
+      const amount = 1;
+      const toAddress = 'DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv';
+      const actual = await index.sendAmountUsingLedger(config, amount, toAddress);
+      const expected = {
+        success: false,
+        message: '6985 Tx Denied on Ledger'
+      }
+      expect(actual).to.deep.equal(expected);
+    });
+    it('sendAmountUsingLedger public key error 6E00', async () => {
+      const config = testUtil.getPublicKeyErrorConfig('6E00');
+      // config.debug = true;
+      const amount = 1;
+      const toAddress = 'DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv';
+      const actual = await index.sendAmountUsingLedger(config, amount, toAddress);
+      const expected = {
+        success: false,
+        publicKey: '',
+        message: '6E00 App Not Open On Ledger Device'
+      }
+      expect(actual).to.deep.equal(expected);
+    });
+    it.skip('sendAmountUsingLedger sign error bad signature', async () => {
+      const config = testUtil.getSignErrorConfig('3046022100a3d84389889d503b55dd9024b8f8dee48f9c3fa8709ca101d67dfb4a877cee9f022100df6b968c63a3e96d667e451703d2b2cdbcc6dbf447d482ea89016eb718e60cb6FFFF8987E92A61B7E38E82361CCAA62772801654AFA20065C2A5A6D873FE23CCCF499000');
+      // config.debug = true;
+      const amount = 1;
+      const toAddress = 'DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv';
+      const actual = await index.sendAmountUsingLedger(config, amount, toAddress);
+      const expected = {
+        success: false,
+        message: '6985 Tx Denied on Ledger'
+      }
       expect(actual).to.deep.equal(expected);
     });
   });
@@ -204,7 +240,7 @@ describe('index', () => {
       const message = 'mnemonic is a required parameter.';
       await testUtil.expectErrorMessage(message, index.sendAmountUsingMnemonic, config, amount, toAddress);
     });
-    it('sendAmountUsingMnemonic', async () => {
+    it('sendAmountUsingMnemonic fee 0', async () => {
       const config = testUtil.getConfig();
       // config.debug = true;
       const amount = 1;
@@ -257,6 +293,68 @@ describe('index', () => {
         'address': 'DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ',
         'success': true,
         'message': '66ecf3cbcd444b2a3714459d6685d3ef0ca773ab27ed07977943d4bad731bb73',
+      };
+      const actual = await index.sendAmountUsingMnemonic(config, amount, toAddress, mnemonic);
+      if (actual.success == false) {
+        throw Error(actual.message);
+      }
+      delete actual.tx.edge.signedObservationEdge.signatureBatch.signatures[0].signature;
+      expect(actual).to.deep.equal(expected);
+    });
+    it('sendAmountUsingMnemonic fee 1', async () => {
+      const config = testUtil.getConfigWithFee(1,'84b8587a29cb180b1535b35ee8714393d7082e27664b61db502c91ab3f9d4cfb');
+      // config.debug = true;
+      const amount = 1;
+      const toAddress = 'DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv';
+      const mnemonic = encodeTestData.mnemonic;
+      const expected = {
+        'prevHash': 'bac31892cb428af03a0a4488276e925057b1eac6bfc466013431eca0bc8cabe0',
+        'ordinal': 586,
+        'tx': {
+          'edge': {
+            'observationEdge': {
+              'parents': [{
+                'hashReference': 'DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ',
+                'hashType': 'AddressHash',
+              }, {
+                'hashReference': 'DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv',
+                'hashType': 'AddressHash',
+              }],
+              'data': {
+                'hashType': 'TransactionDataHash',
+                'hashReference': '1164bac31892cb428af03a0a4488276e925057b1eac6bfc466013431eca0bc8cabe035861110',
+              },
+            },
+            'signedObservationEdge': {
+              'signatureBatch': {
+                'hash': '84b8587a29cb180b1535b35ee8714393d7082e27664b61db502c91ab3f9d4cfb',
+                'signatures': [{
+                  'id': {
+                    'hex': '08DDA015C42EA066A52D68E2AB2985B5AB255D3D0FD2B90363548CC74963B156E1A6AEC5BEB1A0C1DF86025FFDED1DBA91AFA87ECACDC6E32934421AB6C28D9E',
+                  },
+                }],
+              },
+            },
+            'data': {
+              'amount': '1',
+              'fee': 1,
+              'lastTxRef': {
+                'prevHash': 'bac31892cb428af03a0a4488276e925057b1eac6bfc466013431eca0bc8cabe0',
+                'ordinal': 586,
+              },
+              'salt': '0',
+            },
+          },
+          'lastTxRef': {
+            'prevHash': 'bac31892cb428af03a0a4488276e925057b1eac6bfc466013431eca0bc8cabe0',
+            'ordinal': 586,
+          },
+          'isDummy': false,
+          'isTest': false,
+        },
+        'address': 'DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ',
+        'success': true,
+        'message': '84b8587a29cb180b1535b35ee8714393d7082e27664b61db502c91ab3f9d4cfb',
       };
       const actual = await index.sendAmountUsingMnemonic(config, amount, toAddress, mnemonic);
       if (actual.success == false) {

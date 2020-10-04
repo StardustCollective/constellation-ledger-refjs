@@ -197,6 +197,7 @@
           callback.signEncodedTx = (encodedTx) => {
             return new Promise((resolve, reject) => {
               const signCallback = (response) => {
+                /* istanbul ignore if */
                 if (config.debug) {
                   console.log('sendAmountUsingLedger', 'signCallback', 'response', response);
                 }
@@ -207,6 +208,7 @@
                   reject(response.message);
                 }
               };
+              /* istanbul ignore if */
               if (config.debug) {
                 console.log('sendAmountUsingLedger', 'signCallback', 'encodedTx', encodedTx);
               }
@@ -281,6 +283,7 @@
 
     try {
       const signature = await callback.signEncodedTx(encodedTx);
+      /* istanbul ignore if */
       if (config.debug) {
         console.log('sendAmountUsingCallback', 'encodedTx', encodedTx);
         console.log('sendAmountUsingCallback', 'hash', hash);
@@ -293,6 +296,7 @@
       if (verifyResponse == false) {
         throw Error(`invalidSignature encodedTx:'${encodedTx}' hash:'${hash}', publicKey:'${publicKey}' signature:'${signature}'`);
       }
+      /* istanbul ignore if */
       if (config.debug) {
         console.log('verifyResponse', verifyResponse);
       }
@@ -310,6 +314,7 @@
       lastRefResponse.success = true;
       lastRefResponse.message = transactionResponse;
 
+      /* istanbul ignore if */
       if (config.debug) {
         console.log('lastRefResponse', lastRefResponse);
       }

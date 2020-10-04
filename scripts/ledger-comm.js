@@ -34,9 +34,9 @@ const getPublicKey = (transportNodeHid, callback) => {
           publicKey = responseStr.substring(0, 130);
         } else {
           if (responseStr == '6E00') {
-            message = 'App Not Open On Ledger Device';
+            message = '6E00 App Not Open On Ledger Device';
           } else {
-            message = 'Unknown Error';
+            message = responseStr + ' Unknown Error';
           }
         }
         callback({
