@@ -17,6 +17,21 @@
         address DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ
         balance 1000000000000
 
+# get device info from ledger:
+
+        npm start linfo
+
+        response
+
+        constellationjs
+        info {
+          enabled: true,
+          error: false,
+          message: 'Ledger Device Found.',
+          deviceInfo: { manufacturer: 'Ledger', product: 'Nano S', serialNumber: '0001' }
+        }
+
+
 # get balance from ledger:
 
         npm start getlbalance
