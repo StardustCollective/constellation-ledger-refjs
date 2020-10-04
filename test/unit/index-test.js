@@ -54,6 +54,26 @@ describe('index', () => {
       delete actual.reputation;
       expect(actual).to.deep.equal(expected);
     });
+    it('getBalanceFromLedger error 6E00', async () => {
+      const config = testUtil.getPublicKeyErrorConfig('6E00');
+      const actual = await index.getBalanceFromLedger(config);
+      const expected = {
+        "message": "6E00 App Not Open On Ledger Device",
+        'publicKey': '',
+        "success": false
+      };
+      expect(actual).to.deep.equal(expected);
+    });
+    it('getBalanceFromLedger error 8800', async () => {
+      const config = testUtil.getPublicKeyErrorConfig('8800');
+      const actual = await index.getBalanceFromLedger(config);
+      const expected = {
+        "message": "8800 Unknown Error",
+        'publicKey': '',
+        "success": false
+      };
+      expect(actual).to.deep.equal(expected);
+    });
   });
   describe('sendAmountUsingLedger', () => {
     it('sendAmountUsingLedger no config', async () => {

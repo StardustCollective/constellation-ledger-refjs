@@ -35,12 +35,25 @@
     return `${prefix}.${suffix}`;
   };
 
-  const getBalanceFromLedger = async (config) => {
+  const getLedgerDeviceInfo = async (config) => {
     /* istanbul ignore if */
     if (config == undefined) {
       throw Error('config is a required parameter.');
     }
     return new Promise((resolve) => {
+      const callback = async (msg) => {
+        resolve(msg);
+      }
+      ledgerCommUtil.getLedgerDeviceInfo(config.transportNodeHid, callback);
+    });
+  }
+
+  const getBalanceFromLedger = async (config) => {
+    /* istanbul ignore if */
+    if (config == undefined) {
+      throw Error('config is a required parameter.');
+    }
+    return new Promise((resolve, reject) => {
       const callback = async (msg) => {
         /* istanbul ignore if */
         if (config.debug) {
@@ -67,7 +80,7 @@
           // response.lastRef = lastRefResponse;
           resolve(response);
         } else {
-          resolve(msg);
+          reject(Error(msg.message));
           /* istanbul ignore if */
           if (config.debug) {
             console.log('getBalanceFromLedger', 'error ', msg);
@@ -335,6 +348,7 @@
     exports.getBalanceFromLedger = getBalanceFromLedger;
     exports.sendAmountUsingMnemonic = sendAmountUsingMnemonic;
     exports.sendAmountUsingLedger = sendAmountUsingLedger;
+    exports.getLedgerDeviceInfo = getLedgerDeviceInfo;
     return exports;
   })();
   /* istanbul ignore else */

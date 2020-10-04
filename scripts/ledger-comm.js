@@ -16,12 +16,14 @@ const getPublicKey = (transportNodeHid, callback) => {
   const deviceThenCallback = (device) => {
     try {
       const message = Buffer.from('8004000000' + bip44Path, 'hex');
+      /* istanbul ignore if */
       if (debug) {
         console.log('exchange', 'message', message.toString('hex').toUpperCase());
       }
       device.exchange(message).then((response) => {
         device.close();
         const responseStr = response.toString('hex').toUpperCase();
+        /* istanbul ignore if */
         if (debug) {
           console.log('exchange', 'response', responseStr);
         }
@@ -71,15 +73,15 @@ const finishLedgerDeviceInfo = (msg) => {
 };
 
 
-const getLedgerDeviceInfo = (callback) => {
+const getLedgerDeviceInfo = (transportNodeHid, callback) => {
   const deviceThenCallback = (device) => {
     try {
       const deviceInfo = device.device.getDeviceInfo();
-      const deviceInfoStr = JSON.stringify(deviceInfo);
       callback(finishLedgerDeviceInfo({
         enabled: true,
         error: false,
-        message: `Ledger Device Found.${deviceInfoStr}`,
+        message: `Ledger Device Found.`,
+        deviceInfo: deviceInfo
       }));
     } catch (error) {
       callback(finishLedgerDeviceInfo({

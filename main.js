@@ -15,6 +15,10 @@ config.http = require('http');
 config.salt = 0;
 
 const commands = {};
+commands['linfo'] = async () => {
+  const response = await index.getLedgerDeviceInfo(config);
+  console.log('info', response);
+};
 commands['getmbalance'] = async (mnemonic) => {
   const response = await index.getBalanceFromMnemonic(config, mnemonic);
   if (config.debug) {
