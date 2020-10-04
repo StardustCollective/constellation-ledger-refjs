@@ -322,7 +322,7 @@
     } catch (error) {
       const errorResponse = {};
       errorResponse.success = false;
-      errorResponse.message = error;
+      errorResponse.message = error.message;
       return errorResponse;
     }
   };

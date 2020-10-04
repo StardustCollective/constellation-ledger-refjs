@@ -156,15 +156,15 @@ describe('index', () => {
       }
       expect(actual).to.deep.equal(expected);
     });
-    it.skip('sendAmountUsingLedger sign error bad signature', async () => {
-      const config = testUtil.getSignErrorConfig('3046022100a3d84389889d503b55dd9024b8f8dee48f9c3fa8709ca101d67dfb4a877cee9f022100df6b968c63a3e96d667e451703d2b2cdbcc6dbf447d482ea89016eb718e60cb6FFFF8987E92A61B7E38E82361CCAA62772801654AFA20065C2A5A6D873FE23CCCF499000');
+    it('sendAmountUsingLedger sign error bad signature', async () => {
+      const config = testUtil.getSignErrorConfig('3046022100a3d84389889d503b55dd9024b8f8dee48f9c3fa8709ca101d67dfb4a877cee9f022100df6b968c63a3e96d667e451703d2b2cdbcc6dbf447d482ea89016eb718e60cb7FFFF8987E92A61B7E38E82361CCAA62772801654AFA20065C2A5A6D873FE23CCCC499000');
       // config.debug = true;
       const amount = 1;
       const toAddress = 'DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv';
       const actual = await index.sendAmountUsingLedger(config, amount, toAddress);
       const expected = {
         success: false,
-        message: '6985 Tx Denied on Ledger'
+        message: "invalidSignature encodedTx:'022844414734457162664a4e53595a444466733741557a6f666f744a7a5a58655259674861475a366a512844414736785872763637724c4161476f5943615565327070424a4d4b73726955694e567a6b4a76760101406261633331383932636234323861663033613061343438383237366539323530353762316561633662666334363630313334333165636130626338636162653002024a01000100' hash:'66ecf3cbcd444b2a3714459d6685d3ef0ca773ab27ed07977943d4bad731bb73', publicKey:'0408DDA015C42EA066A52D68E2AB2985B5AB255D3D0FD2B90363548CC74963B156E1A6AEC5BEB1A0C1DF86025FFDED1DBA91AFA87ECACDC6E32934421AB6C28D9E' signature:'3046022100A3D84389889D503B55DD9024B8F8DEE48F9C3FA8709CA101D67DFB4A877CEE9F022100DF6B968C63A3E96D667E451703D2B2CDBCC6DBF447D482EA89016EB718E60CB7'"
       }
       expect(actual).to.deep.equal(expected);
     });
@@ -302,7 +302,7 @@ describe('index', () => {
       expect(actual).to.deep.equal(expected);
     });
     it('sendAmountUsingMnemonic fee 1', async () => {
-      const config = testUtil.getConfigWithFee(1,'84b8587a29cb180b1535b35ee8714393d7082e27664b61db502c91ab3f9d4cfb');
+      const config = testUtil.getConfigWithFee(1, '84b8587a29cb180b1535b35ee8714393d7082e27664b61db502c91ab3f9d4cfb');
       // config.debug = true;
       const amount = 1;
       const toAddress = 'DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv';
