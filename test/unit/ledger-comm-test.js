@@ -11,24 +11,6 @@ const testUtil = require('../util/test-util.js');
 const ledgerCommUtil = require('../../scripts/ledger-comm.js');
 
 describe('ledger-comm', () => {
-  describe('getLedgerDeviceInfo', () => {
-    it('getLedgerDeviceInfo', async () => {
-      const actual =
-        await new Promise((resolve) => {
-          const callback = (response) => {
-            resolve(response);
-          };
-          ledgerCommUtil.getLedgerDeviceInfo(config.transportNodeHid, longTx, signCallback);
-        });
-      const expected = {
-        "message": "9000",
-        "signature": "",
-        "success": true
-      };
-      expect(actual).to.deep.equal(expected);
-
-    })
-  })
   describe('sign', () => {
     it('sign long', async () => {
       const longTx = '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';

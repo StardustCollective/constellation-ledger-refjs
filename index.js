@@ -80,7 +80,11 @@
           // response.lastRef = lastRefResponse;
           resolve(response);
         } else {
-          reject(Error(msg.message));
+          resolve(msg);
+          // normally we would reject here to throw an error.
+          // but since we are returning a JSON object,
+          // we return success:false with a message, instead of throwing an error.
+          // reject(Error(msg.message));
           /* istanbul ignore if */
           if (config.debug) {
             console.log('getBalanceFromLedger', 'error ', msg);
