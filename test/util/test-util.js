@@ -101,12 +101,16 @@ const getConfig = () => {
     });
   };
 
+  config.transportNodeHid.default.getDeviceInfo = () => {
+    throw Error('No USB device found.');
+  };
+
   const httpRequestResponse = {};
   httpRequestResponse['GET'] = {};
   httpRequestResponse['GET']['/address/DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ'] = '{"balance":1000000000000,"memPoolBalance":0,"reputation":null,"ancestorBalances":{},"ancestorReputations":{},"balanceByLatestSnapshot":1000000000000,"rewardsBalance":0}';
   httpRequestResponse['GET']['/transaction/last-ref/DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ'] = '{"prevHash":"bac31892cb428af03a0a4488276e925057b1eac6bfc466013431eca0bc8cabe0","ordinal":586}';
   httpRequestResponse['GET']['/address/DAG819drNmqZqZ42bfGQSGh5dYUrg1dVmw4Bfmcs'] =
-  '{"balance":1,"memPoolBalance":0,"reputation":null,  "ancestorBalances":{},"ancestorReputations":{}, "balanceByLatestSnapshot":0,"rewardsBalance":0,"balanceWhole":"0.00000001","address": "DAG819drNmqZqZ42bfGQSGh5dYUrg1dVmw4Bfmcs","success": true}';
+    '{"balance":1,"memPoolBalance":0,"reputation":null,  "ancestorBalances":{},"ancestorReputations":{}, "balanceByLatestSnapshot":0,"rewardsBalance":0,"balanceWhole":"0.00000001","address": "DAG819drNmqZqZ42bfGQSGh5dYUrg1dVmw4Bfmcs","success": true}';
 
   httpRequestResponse['POST'] = {};
   httpRequestResponse['POST']['/transaction'] = {};

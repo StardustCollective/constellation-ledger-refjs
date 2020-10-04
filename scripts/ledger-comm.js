@@ -76,7 +76,7 @@ const finishLedgerDeviceInfo = (msg) => {
 const getLedgerDeviceInfo = (transportNodeHid, callback) => {
   const deviceThenCallback = (device) => {
     try {
-      const deviceInfo = device.device.getDeviceInfo();
+      const deviceInfo = transportNodeHid.default.getDeviceInfo();
       callback(finishLedgerDeviceInfo({
         enabled: true,
         error: false,

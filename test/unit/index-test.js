@@ -13,6 +13,18 @@ const index = require('../../index.js');
 const testUtil = require('../util/test-util.js');
 
 describe('index', () => {
+  describe('getLedgerDeviceInfo', () => {
+    it('getLedgerDeviceInfo No USB device found', async () => {
+      const config = testUtil.getConfig();
+      const actual = await index.getLedgerDeviceInfo(config);
+      const expected = {
+        "enabled": false,
+        "error": true,
+        "message": "No USB device found."
+      };
+      expect(actual).to.deep.equal(expected);
+    })
+  })
   describe('getBalanceFromLedger', () => {
     it('getBalanceFromLedger no config', async () => {
       const message = 'config is a required parameter.';
