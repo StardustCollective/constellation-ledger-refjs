@@ -249,6 +249,9 @@
   const sendAmountUsingCallback = async (config, amount, toAddress, address, publicKey, callback) => {
     const lastRefPath = `/transaction/last-ref/${address}`;
     const lastRefResponse = await integrationUtil.get(config, lastRefPath);
+    if (config.debug) {
+      console.log('sendAmountUsingCallback', 'lastRefResponse', lastRefResponse);
+    }
 
     lastRefResponse.tx = {
       'edge': {

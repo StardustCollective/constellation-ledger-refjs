@@ -44,8 +44,12 @@
 
 # send amount from mnemonic (put the whole mnemonic in quotes):
 
-        npm start msend 1 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv 'yard impulse luxury drive today throw farm pepper survey wreck glass federal'
+        npm start msend 10 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv 'yard impulse luxury drive today throw farm pepper survey wreck glass federal'
+
+        npm start msend 10 DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ 'frost dismiss trophy borrow bunker barrel actress cook annual property control bundle'
 
 # send amount fromledger:
 
         npm start lsend 1 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv
+
+        npm start lsend 10 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv

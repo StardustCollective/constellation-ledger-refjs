@@ -9,6 +9,8 @@ const expect = chai.expect;
 
 const signUtil = require('../../scripts/tx-sign.js');
 
+const kryoUtil = require('../../scripts/kryo.js');
+
 const hashUtil = require('../../scripts/sha256-hash.js');
 
 const integrationUtil = require('../../scripts/integration.js');
@@ -26,7 +28,7 @@ config.salt = 0;
 
 // should give good response:
 /*
-curl http://13.57.231.148:9000/transaction -X POST -H 'Content-Type: application/json' -H 'Accept:application/json' --data '{"edge":{"observationEdge":{"parents":[{"hashReference":"DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ","hashType":"AddressHash","baseHash":null},{"hashReference":"DAG48nmxgpKhZzEzyc86y9oHotxxG57G8sBBwj56","hashType":"AddressHash","baseHash":null}],"data":{"hashReference":"0405f5e10040303865366630633364363565643062333933363034666665323832333734626635303139353662613434376263316335616334396263643265386363343466640202370301e2400866498342c91b1383","hashType":"TransactionDataHash","baseHash":null}},"signedObservationEdge":{"signatureBatch":{"hash":"8987e92a61b7e38e82361ccaa62772801654afa20065c2a5a6d873fe23cccc49","signatures":[{"signature":"3045022100a7c0660cb2fb12a578dc64f5e75a3ad89562172c01cf55ce8e39d328a5caba060220501913153ca329962f9d6fe4cd7a1bca7504b0c6d6c465e6bd8dfa2d973feb1c","id":{"hex":"08dda015c42ea066a52d68e2ab2985b5ab255d3d0fd2b90363548cc74963b156e1a6aec5beb1a0c1df86025ffded1dba91afa87ecacdc6e32934421ab6c28d9e"}}]}},"data":{"amount":100000000,"lastTxRef":{"prevHash":"08e6f0c3d65ed0b393604ffe282374bf501956ba447bc1c5ac49bcd2e8cc44fd","ordinal":567},"fee":123456,"salt":7370566588033603000}},"lastTxRef":{"prevHash":"08e6f0c3d65ed0b393604ffe282374bf501956ba447bc1c5ac49bcd2e8cc44fd","ordinal":567},"isDummy":false,"isTest":false}'
+curl http://lb.constellationnetwork.io:9000/transaction -X POST -H 'Content-Type: application/json' -H 'Accept:application/json' --data '{"edge":{"observationEdge":{"parents":[{"hashReference":"DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ","hashType":"AddressHash","baseHash":null},{"hashReference":"DAG48nmxgpKhZzEzyc86y9oHotxxG57G8sBBwj56","hashType":"AddressHash","baseHash":null}],"data":{"hashReference":"0405f5e10040303865366630633364363565643062333933363034666665323832333734626635303139353662613434376263316335616334396263643265386363343466640202370301e2400866498342c91b1383","hashType":"TransactionDataHash","baseHash":null}},"signedObservationEdge":{"signatureBatch":{"hash":"8987e92a61b7e38e82361ccaa62772801654afa20065c2a5a6d873fe23cccc49","signatures":[{"signature":"3045022100a7c0660cb2fb12a578dc64f5e75a3ad89562172c01cf55ce8e39d328a5caba060220501913153ca329962f9d6fe4cd7a1bca7504b0c6d6c465e6bd8dfa2d973feb1c","id":{"hex":"08dda015c42ea066a52d68e2ab2985b5ab255d3d0fd2b90363548cc74963b156e1a6aec5beb1a0c1df86025ffded1dba91afa87ecacdc6e32934421ab6c28d9e"}}]}},"data":{"amount":100000000,"lastTxRef":{"prevHash":"08e6f0c3d65ed0b393604ffe282374bf501956ba447bc1c5ac49bcd2e8cc44fd","ordinal":567},"fee":123456,"salt":7370566588033603000}},"lastTxRef":{"prevHash":"08e6f0c3d65ed0b393604ffe282374bf501956ba447bc1c5ac49bcd2e8cc44fd","ordinal":567},"isDummy":false,"isTest":false}'
 */
 
 const theirTx = encodeTestData.theirTx;
@@ -90,7 +92,9 @@ describe('integration', () => {
     const tx = JSON.parse(JSON.stringify(encodeTestData.decodedTx));
     console.log('integration tx copy', JSON.stringify(tx));
     tx.edge.signedObservationEdge.signatureBatch.signatures.length = 0;
-    const hash = hashUtil.sha256Hash(Buffer.from(encodeTestData.encodedTx));
+    const kryoSerialized = kryoUtil.serialize(Buffer.from(encodeTestData.encodedTx), false);
+
+    const hash = hashUtil.sha256Hash(kryoSerialized);
     expect(tx.edge.signedObservationEdge.signatureBatch.hash).to.equal(hash.toString('hex'));
 
     const privateKey = Buffer.from(encodeTestData.privateKey, 'hex');
