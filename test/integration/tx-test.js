@@ -16,9 +16,9 @@ const integrationUtil = require('../../scripts/integration.js');
 const encodeTestData = require('../unit/tx-encode-test-data.json');
 
 const config = {};
-config.hostname = '18.144.54.62';
+config.hostname = 'lb.constellationnetwork.io';
 config.port = 9000;
-config.debug = true;
+config.debug = false;
 config.transportNodeHid = require('@ledgerhq/hw-transport-node-hid');
 config.http = require('http');
 config.fee = 1;
@@ -68,7 +68,7 @@ describe('integration', () => {
     const publicKey = '04' + theirTx.edge.signedObservationEdge.signatureBatch.signatures[0].id.hex;
 
     console.log('theirTx.hashHex', hash.toString('hex'));
-    console.log('theirTx.hash', hash);
+    // console.log('theirTx.hash', hash);
     console.log('theirTx.signature', signature);
     console.log('theirTx.publicKey', publicKey);
 
