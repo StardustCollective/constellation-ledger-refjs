@@ -20,7 +20,7 @@ const encodeTxHash = (tx, hashReference) => {
   let encodedTx = '';
 
   // == amount
-  const amount = tx.edge.data.amount.toString(16);
+  const amount = tx.edge.data.amount.toString(10);
   const amountLen = amount.length;
 
   encodedTx += amountLen;
@@ -34,7 +34,7 @@ const encodeTxHash = (tx, hashReference) => {
   encodedTx += lastTxRefHash;
 
   // == lastTxRefOrdinal
-  const lastTxRefOrdinal = tx.lastTxRef.ordinal.toString();
+  const lastTxRefOrdinal = tx.lastTxRef.ordinal.toString(10);
   const lastTxRefOrdinalLen = lastTxRefOrdinal.length;
 
   encodedTx += lastTxRefOrdinalLen;
