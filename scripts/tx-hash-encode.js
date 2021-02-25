@@ -41,14 +41,14 @@ const encodeTxHash = (tx, hashReference) => {
   encodedTx += lastTxRefOrdinal;
 
   // == fee
-  const fee = (tx.edge.data.fee || 0).toString();
+  const fee = (tx.edge.data.fee || 0).toString(10);
   const feeLen = fee.length;
 
   encodedTx += feeLen;
   encodedTx += fee;
 
   // == salt
-  const salt = tx.edge.data.salt.toString(16);
+  const salt = tx.edge.data.salt.toString(10);
   const saltLen = salt.length;
 
   encodedTx += saltLen;
