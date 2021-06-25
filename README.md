@@ -1,4 +1,4 @@
-# constellation-light-wallet
+# constellation javascript library
 
     to install run:
 
