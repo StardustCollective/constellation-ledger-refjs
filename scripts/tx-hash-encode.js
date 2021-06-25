@@ -20,7 +20,7 @@ const encodeTxHash = (tx, hashReference) => {
   let encodedTx = '';
 
   // == amount
-  const amount = tx.edge.data.amount.toString(10);
+  const amount = tx.edge.data.amount.toString(16);
   const amountLen = amount.length;
 
   encodedTx += amountLen;
@@ -48,7 +48,7 @@ const encodeTxHash = (tx, hashReference) => {
   encodedTx += fee;
 
   // == salt
-  const salt = tx.edge.data.salt.toString(10);
+  const salt = tx.edge.data.salt.toString(16);
   const saltLen = salt.length;
 
   encodedTx += saltLen;
