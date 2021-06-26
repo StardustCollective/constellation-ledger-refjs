@@ -48,6 +48,10 @@
 
         npm start msend 10 DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ 'frost dismiss trophy borrow bunker barrel actress cook annual property control bundle'
 
+        npm start msend 1000000000 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv 'yard impulse luxury drive today throw farm pepper survey wreck glass federal'
+
+        npm start msend 1000000000 DAG4EqbfJNSYZDDfs7AUzofotJzZXeRYgHaGZ6jQ 'frost dismiss trophy borrow bunker barrel actress cook annual property control bundle'
+
 # send amount fromledger:
 
         # 1 raw
