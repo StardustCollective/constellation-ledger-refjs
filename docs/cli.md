@@ -50,6 +50,14 @@
 
 # send amount fromledger:
 
+        # 1 raw
         npm start lsend 1 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv
 
+        # 10 raw
         npm start lsend 10 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv
+
+        # 1 dag, 100,000,000 raw
+        npm start lsend 100000000 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv
+
+        # 10 dag, 1,000,000,000 raw
+        npm start lsend 1000000000 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv
