@@ -66,10 +66,10 @@ commands['lsend'] = async (amount, toAddress) => {
   console.log('sendAmountUsingLedger', amount, toAddress);
   const response = await index.sendAmountUsingLedger(config, amount, toAddress);
   if (config.debug) {
-    console.log('sendAmountUsingLedger response', JSON.stringify(response));
+    console.log('sendAmountUsingLedger tx', JSON.stringify(response.tx));
   }
   if (response.success) {
-    console.log('send success', response.message);
+    console.log('send success');
   } else {
     console.log('send error', response.message);
   }
