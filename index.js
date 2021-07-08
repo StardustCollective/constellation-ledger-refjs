@@ -253,6 +253,8 @@
       console.log('sendAmountUsingCallback', 'lastRefResponse', lastRefResponse);
     }
 
+    amount = Number(amount);
+
     lastRefResponse.tx = {
       'edge': {
         'observationEdge': {
@@ -274,12 +276,12 @@
           },
         },
         'data': {
-          'amount': amount.toString(),
+          'amount': amount,
           'lastTxRef': {
             'prevHash': lastRefResponse.prevHash,
             'ordinal': lastRefResponse.ordinal,
           },
-          'salt': config.salt.toString(),
+          'salt': config.salt,
         },
       },
       'lastTxRef': {
@@ -298,6 +300,10 @@
     lastRefResponse.tx.edge.observationEdge.data.hashReference = hashReference;
 
     const encodedTx = txTranscodeUtil.encodeTx(lastRefResponse.tx, false, false);
+
+    console.log('hashReference', hashReference);
+    console.log('encodedTx', encodedTx);
+
     const hash = signUtil.getHash(encodedTx, config.debug);
     lastRefResponse.tx.edge.signedObservationEdge.signatureBatch.hash = hash;
 

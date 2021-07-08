@@ -203,7 +203,7 @@ const decodeTx = (tx) => {
   const prevHash = getNextTxAscii();
   const ordinal = getNextTxInteger();
   const fee = getNextTxInteger();
-  const salt = getNextTxBase10Str();
+  const salt = getNextTxInteger();
 
   const decodedTx = {
     'edge': {
