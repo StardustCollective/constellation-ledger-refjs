@@ -65,3 +65,6 @@
 
         # 10 dag, 1,000,000,000 raw
         npm start lsend 1000000000 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv
+
+        # 12,345,678.90123456 dag, 1,234,567,890,123,456 raw
+        npm start lsend 1234567890123456 DAG6xXrv67rLAaGoYCaUe2ppBJMKsriUiNVzkJvv
